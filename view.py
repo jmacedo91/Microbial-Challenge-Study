@@ -36,5 +36,5 @@ def show_info():
 def delete_info(i):
     with con:
         cur = con.cursor()
-        query = "DELETE FROM challenge WHERE id=(?, ?, ?, ?, ?, ?)"
+        query = "DELETE FROM challenge WHERE id=?"
         cur.execute(query, i)
