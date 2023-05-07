@@ -10,15 +10,15 @@ from view import *
 # ---------- UI Setup ---------- #
 
 window = Tk()
-window.title("Challenge Test")
+window.title("Challenge Test - PróLab Biotecnologia")
 window.geometry("1130x545")
 window.resizable(width=False, height=False)
 global tree
 
-frame_title = Frame(window, width=1130, height=50, background="black", relief="flat")
+frame_title = Frame(window, width=1130, height=50, background="#01304E", relief="flat")
 frame_title.grid(row=0, column=0, columnspan=2)
 
-frame_left = Frame(window, width=465, height=495, background="#feffff", relief="flat")
+frame_left = Frame(window, width=465, height=495, background="#01304E", relief="flat")
 frame_left.grid(row=1, column=0, rowspan=2)
 
 frame_right_top = Frame(window, width=665, height=248, relief="flat")
@@ -29,13 +29,13 @@ frame_right_bottom.grid(row=2, column=1)
 
 # ---------- App Title ---------- #
 
-app_name = Label(frame_title, text="Challenge Test", font='Ivy 15 bold', bg="black", fg="white", relief='flat')
+app_name = Label(frame_title, text="Challenge Test", font='Ivy 15 bold', bg="#01304E", fg="white", relief='flat')
 app_name.place(x=483, y=11)
 
 # ---------- Periods ---------- #
 
 
-label_time = Label(frame_left, text='Tempo *', anchor=NW, font='Ivy 10 bold', bg="#feffff", fg="#403d3d", relief='flat')
+label_time = Label(frame_left, text='Tempo *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white", relief='flat')
 label_time.place(x=15, y=10)
 
 entry_time0 = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
@@ -74,7 +74,7 @@ entry_time = [entry_time0, entry_time1, entry_time2, entry_time3, entry_time4, e
 
 # ---------- Dates ---------- #
 
-label_date = Label(frame_left, text='Data *', anchor=NW, font='Ivy 10 bold', bg="#feffff", fg="#403d3d", relief='flat')
+label_date = Label(frame_left, text='Data *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white", relief='flat')
 label_date.place(x=145, y=10)
 
 entry_date0 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
@@ -114,7 +114,7 @@ entry_date = [entry_date0, entry_date1, entry_date2, entry_date3, entry_date4, e
 # ---------- Counts ---------- #
 
 
-label_date = Label(frame_left, text='Contagem *', anchor=NW, font='Ivy 10 bold', bg="#feffff", fg="#403d3d",
+label_date = Label(frame_left, text='Contagem *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white",
                    relief='flat')
 label_date.place(x=294, y=10)
 
@@ -188,34 +188,33 @@ def show_table():
 
 def insert():
     for row in range(8):
-        tempo = entry_time[row].get()
-        data = entry_date[row].get()
-        if entry_count[row].get() == '':
-            messagebox.showerror("Erro!", "Insira as contagens ausentes.")
-            exit()
-        else:
+        if entry_count[row].get() != '':
+            tempo = entry_time[row].get()
+            data = entry_date[row].get()
             contagem = float(entry_count[row].get().replace(",", "."))
             log_ufc = round(np.log10(contagem), 2)
-            if row == 0:
-                reduction = '-'
+            if entry_count[0].get() == '':
+                messagebox.showerror("Erro de Cálculo.",
+                                     "Insira a contagem inicial para o cálculo do percentual de redução.")
             else:
-                reduction = 100 * (1 - (1 / (10 ** (np.log10(float(entry_count[0].get().replace(",", ".")) / contagem)))))
-                reduction = round(reduction, 2)
+                if row == 0:
+                    reduction = '-'
+                else:
+                    reduction = 100 * (1 - (1 / (10 ** (np.log10(float(entry_count[0].get().replace(",", ".")) / contagem)))))
+                    reduction = round(reduction, 2)
 
-            my_list = [tempo, data, contagem, log_ufc, reduction]
+                my_list = [tempo, data, contagem, log_ufc, reduction]
 
-            insert_info(my_list)
+                insert_info(my_list)
 
-            for widget in frame_right_top.winfo_children():
-                widget.destroy()
+                for widget in frame_right_top.winfo_children():
+                    widget.destroy()
 
             show_table()
-    messagebox.showinfo("Sucesso!", "Dados inseridos com sucesso!")
 
     for row in range(8):
         entry_date[row].delete(0, 'end')
         entry_count[row].delete(0, 'end')
-
 
 def delete():
     try:
@@ -252,4 +251,5 @@ delete_button.place(x=15, y=280)
 # Calling show_table function
 show_table()
 
+window.bind("<Control-D>", lambda event: delete())
 window.mainloop()
