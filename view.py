@@ -28,3 +28,13 @@ def show_info():
         for i in information:
             my_list.append(i)
     return my_list
+
+
+# Deleting Data (Delete)
+
+
+def delete_info(i):
+    with con:
+        cur = con.cursor()
+        query = "DELETE FROM challenge WHERE id=(?, ?, ?, ?, ?, ?)"
+        cur.execute(query, i)
