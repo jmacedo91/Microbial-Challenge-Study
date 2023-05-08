@@ -231,15 +231,22 @@ def insert():
         entry_date[row].delete(0, 'end')
         entry_count[row].delete(0, 'end')
 
+
 def delete():
     try:
-        treev_data = tree.focus()
-        treev_dictionary = tree.item(treev_data)
-        tree_list = treev_dictionary['values']
+        treev_data = tree.selection()
+        tree_list = []
+        id_list = []
+        for row in treev_data:
+            treev_dictionary = tree.item(row)
+            tree_list.append(treev_dictionary['values'])
 
-        valor_id = tree_list[0]
+        for value in range(len(tree_list)):
+            id_list.append(tree_list[value][0])
 
-        delete_info([valor_id])
+        for id_value in id_list:
+            delete_info([id_value])
+
         messagebox.showinfo('Sucesso!', 'Dados deletados da tabela com sucesso!')
 
         for widget in frame_right_top.winfo_children():
@@ -266,5 +273,5 @@ delete_button.place(x=15, y=305)
 # Calling show_table function
 show_table()
 
-window.bind("<Control-D>", lambda event: delete())
+window.bind("<Control-d>", lambda event: delete())
 window.mainloop()
