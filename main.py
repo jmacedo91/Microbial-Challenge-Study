@@ -269,7 +269,6 @@ delete_button = Button(frame_left, text="Deletar", width=20, font='Ivy 9 bold', 
                        relief='raised', overrelief='ridge', command=delete)
 delete_button.place(x=15, y=305)
 
-
 # Calling show_table function
 show_table()
 
