@@ -51,7 +51,8 @@ entry_rel_number.place(x=168, y=10)
 # ---------- Periods ---------- #
 
 
-label_time = Label(frame_left, text='Tempo *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white", relief='flat')
+label_time = Label(frame_left, text='Tempo (Dias):', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white",
+                   relief='flat')
 label_time.place(x=15, y=35)
 
 entry_time0 = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
@@ -90,48 +91,56 @@ entry_time = [entry_time0, entry_time1, entry_time2, entry_time3, entry_time4, e
 
 # ---------- Dates ---------- #
 
-label_date = Label(frame_left, text='Data *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white", relief='flat')
+label_date = Label(frame_left, text='Data:', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white", relief='flat')
 label_date.place(x=145, y=35)
 
 entry_date0 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date0.delete(0, 'end')
 entry_date0.place(x=145, y=55)
 
 entry_date1 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date1.delete(0, 'end')
 entry_date1.place(x=145, y=80)
 
 entry_date2 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date2.delete(0, 'end')
 entry_date2.place(x=145, y=105)
 
 entry_date3 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date3.delete(0, 'end')
 entry_date3.place(x=145, y=130)
 
 entry_date4 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date4.delete(0, 'end')
 entry_date4.place(x=145, y=155)
 
 entry_date5 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date5.delete(0, 'end')
 entry_date5.place(x=145, y=180)
 
 entry_date6 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date6.delete(0, 'end')
 entry_date6.place(x=145, y=205)
 
 entry_date7 = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue', foreground='white',
                         borderwidth=2)
+entry_date7.delete(0, 'end')
 entry_date7.place(x=145, y=230)
 
 entry_date = [entry_date0, entry_date1, entry_date2, entry_date3, entry_date4, entry_date5, entry_date6, entry_date7]
 
 # ---------- Counts ---------- #
 
-label_date = Label(frame_left, text='Contagem *', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white",
+label_count = Label(frame_left, text='Contagem:', anchor=NW, font='Ivy 10 bold', bg="#01304E", fg="white",
                    relief='flat')
-label_date.place(x=294, y=35)
+label_count.place(x=294, y=35)
 
 entry_count0 = Entry(frame_left, width=20, justify='left', relief='solid', bd=2)
 entry_count0.place(x=294, y=55)
@@ -203,7 +212,7 @@ def show_table():
 
 def insert():
     for row in range(8):
-        if entry_count[row].get() != '':
+        if entry_count[row].get() != '' and entry_date[row].get() != '':
             tempo = entry_time[row].get()
             data = entry_date[row].get()
             contagem = float(entry_count[row].get().replace(",", "."))
@@ -212,7 +221,7 @@ def insert():
                 messagebox.showerror("Erro de Cálculo.",
                                      "Insira a contagem inicial para o cálculo do percentual de redução.")
             else:
-                if row == 0:
+                if tempo == 'T0':
                     reduction = '-'
                 else:
                     reduction = 100 * (1 - (1 / (10 ** (np.log10(float(entry_count[0].get().replace(",", ".")) / contagem)))))
@@ -232,6 +241,72 @@ def insert():
         entry_count[row].delete(0, 'end')
 
 
+def update():
+    try:
+        treev_data = tree.focus()
+        treev_dictionary = tree.item(treev_data)
+        tree_list = treev_dictionary['values']
+
+        id_value = tree_list[0]
+
+        label_time_update = Label(frame_left, text='Tempo Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
+                                  fg="white", relief='flat')
+        label_time_update.place(x=15, y=255)
+
+        entry_time_update = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
+        entry_time_update.place(x=15, y=280)
+        entry_time_update.insert(0, tree_list[1])
+
+        label_date_update = Label(frame_left, text='Data Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
+                                  fg="white", relief='flat')
+        label_date_update.place(x=145, y=255)
+
+        entry_date_update = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue',
+                                      foreground='white', borderwidth=2)
+        entry_date_update.place(x=145, y=280)
+        entry_date_update.delete(0, 'end')
+        entry_date_update.insert(0, tree_list[2])
+
+        label_count_update = Label(frame_left, text='Contagem Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
+                                   fg="white", relief='flat')
+        label_count_update.place(x=294, y=255)
+
+        entry_count_update = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
+        entry_count_update.place(x=294, y=280)
+        entry_count_update.insert(0, tree_list[3])
+
+        def update():
+            time = entry_time_update.get()
+            date = entry_date_update.get()
+            count = float(entry_count_update.get().replace(",", "."))
+            log_ufc = round(np.log10(count), 2)
+
+            if entry_count[0].get() == '':
+                messagebox.showerror("Erro de Cálculo.",
+                                     "Insira a contagem inicial para atualizar o percentual de redução.")
+            else:
+                if time == 'T0':
+                    reduction = '-'
+                else:
+                    reduction = 100 * (1 - (1 / (10 ** (np.log10(float(entry_count[0].get().replace(",", ".")) / count)))))
+                    reduction = round(reduction, 2)
+                update_list = [time, date, count, log_ufc, reduction, id_value]
+                update_info(update_list)
+                messagebox.showinfo("Sucesso!", "Dados Atualizados com Sucesso!")
+
+            for widget in frame_right_top.winfo_children():
+                widget.destroy()
+
+            show_table()
+
+        confirm_button = Button(frame_left, text="Confirmar", width=56, font='Ivy 9 bold', bg="#A0D8B3", fg="black",
+                                relief="raised", overrelief="ridge", command=update)
+        confirm_button.place(x=15, y=325)
+
+    except IndexError:
+        messagebox.showerror('Erro!', 'Selecionar um dos dados na tabela')
+
+
 def delete():
     try:
         treev_data = tree.selection()
@@ -247,7 +322,7 @@ def delete():
         for id_value in id_list:
             delete_info([id_value])
 
-        messagebox.showinfo('Sucesso!', 'Dados deletados da tabela com sucesso!')
+        messagebox.showinfo('Sucesso!', 'Dados deletados com sucesso!')
 
         for widget in frame_right_top.winfo_children():
             widget.destroy()
@@ -255,19 +330,23 @@ def delete():
         show_table()
 
     except IndexError:
-        messagebox.showerror('Erro!', 'Selecionar um dos dados na tabela')
+        messagebox.showerror('Erro!', 'Selecione um ou mais dados na tabela')
 
 
 # ---------- Buttons ---------- #
 
 
-insert_button = Button(frame_left, text="Inserir Dados", width=20, font="Ivy 9 bold", bg="#6fbbd3", fg="black",
+insert_button = Button(frame_left, text="Inserir Dados", width=16, font="Ivy 9 bold", bg="#6fbbd3", fg="black",
                        relief='raised', overrelief='ridge', command=insert)
-insert_button.place(x=15, y=275)
+insert_button.place(x=15, y=385)
 
-delete_button = Button(frame_left, text="Deletar", width=20, font='Ivy 9 bold', bg="#ff6961", fg="black",
+update_button = Button(frame_left, text="Atualizar", width=19, font='Ivy 9 bold', bg="#A0D8B3", fg="black",
+                       relief='raised', overrelief='ridge', command=update)
+update_button.place(x=145, y=385)
+
+delete_button = Button(frame_left, text="Deletar", width=16, font='Ivy 9 bold', bg="#ff6961", fg="black",
                        relief='raised', overrelief='ridge', command=delete)
-delete_button.place(x=15, y=305)
+delete_button.place(x=294, y=385)
 
 # Calling show_table function
 show_table()

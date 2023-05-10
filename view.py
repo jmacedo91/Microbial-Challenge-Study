@@ -30,6 +30,16 @@ def show_info():
     return my_list
 
 
+# Updating Data (Update)
+
+
+def update_info(i):
+    with con:
+        cur = con.cursor()
+        query = "UPDATE challenge SET 'Tempo (Dias)'=?, Data=?, 'Contagem (UFC/mL)'=?, 'log(UFC/mL)'=?, '% Percentual de Redução'=? WHERE id=?"
+        cur.execute(query, i)
+
+
 # Deleting Data (Delete)
 
 
