@@ -9,8 +9,7 @@ con = lite.connect('dados.db')
 def insert_info(i):
     with con:
         cur = con.cursor()
-        query = "INSERT INTO challenge ('Tempo (Dias)', Data, 'Contagem (UFC/mL)', 'log(UFC/mL)', \
-        '% Percentual de Redução') VALUES (?, ?, ?, ?, ?)"
+        query = "INSERT INTO challenge (Tempo, Data, Contagem, log, Reducao) VALUES (?, ?, ?, ?, ?)"
         cur.execute(query, i)
 
 
@@ -36,7 +35,7 @@ def show_info():
 def update_info(i):
     with con:
         cur = con.cursor()
-        query = "UPDATE challenge SET 'Tempo (Dias)'=?, Data=?, 'Contagem (UFC/mL)'=?, 'log(UFC/mL)'=?, '% Percentual de Redução'=? WHERE id=?"
+        query = "UPDATE challenge SET Tempo=?, Data=?, Contagem=?, log=?, Reducao=? WHERE id=?"
         cur.execute(query, i)
 
 

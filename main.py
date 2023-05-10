@@ -47,6 +47,7 @@ label_rel_number.place(x=15, y=10)
 
 entry_rel_number = Entry(frame_left, width=41, justify="left", relief="solid", bd=2)
 entry_rel_number.place(x=168, y=10)
+entry_rel_number.focus()
 
 # ---------- Periods ---------- #
 
@@ -251,28 +252,28 @@ def update():
 
         label_time_update = Label(frame_left, text='Tempo Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
                                   fg="white", relief='flat')
-        label_time_update.place(x=15, y=255)
+        label_time_update.place(x=15, y=295)
 
         entry_time_update = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
-        entry_time_update.place(x=15, y=280)
+        entry_time_update.place(x=15, y=315)
         entry_time_update.insert(0, tree_list[1])
 
         label_date_update = Label(frame_left, text='Data Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
                                   fg="white", relief='flat')
-        label_date_update.place(x=145, y=255)
+        label_date_update.place(x=145, y=295)
 
         entry_date_update = DateEntry(frame_left, date_pattern='dd/mm/yyyy', width=20, background='darkblue',
                                       foreground='white', borderwidth=2)
-        entry_date_update.place(x=145, y=280)
+        entry_date_update.place(x=145, y=315)
         entry_date_update.delete(0, 'end')
         entry_date_update.insert(0, tree_list[2])
 
         label_count_update = Label(frame_left, text='Contagem Correção', anchor=NW, font='Ivy 10 bold', bg="#01304E",
                                    fg="white", relief='flat')
-        label_count_update.place(x=294, y=255)
+        label_count_update.place(x=294, y=295)
 
         entry_count_update = Entry(frame_left, width=20, justify='center', relief='solid', bd=2)
-        entry_count_update.place(x=294, y=280)
+        entry_count_update.place(x=294, y=315)
         entry_count_update.insert(0, tree_list[3])
 
         def update():
@@ -297,11 +298,19 @@ def update():
             for widget in frame_right_top.winfo_children():
                 widget.destroy()
 
+            confirm_button.place_forget()
+            label_time_update.place_forget()
+            entry_time_update.place_forget()
+            label_date_update.place_forget()
+            entry_date_update.place_forget()
+            label_count_update.place_forget()
+            entry_count_update.place_forget()
+
             show_table()
 
         confirm_button = Button(frame_left, text="Confirmar", width=56, font='Ivy 9 bold', bg="#A0D8B3", fg="black",
                                 relief="raised", overrelief="ridge", command=update)
-        confirm_button.place(x=15, y=325)
+        confirm_button.place(x=15, y=345)
 
     except IndexError:
         messagebox.showerror('Erro!', 'Selecionar um dos dados na tabela')
@@ -338,15 +347,15 @@ def delete():
 
 insert_button = Button(frame_left, text="Inserir Dados", width=16, font="Ivy 9 bold", bg="#6fbbd3", fg="black",
                        relief='raised', overrelief='ridge', command=insert)
-insert_button.place(x=15, y=385)
+insert_button.place(x=15, y=260)
 
 update_button = Button(frame_left, text="Atualizar", width=19, font='Ivy 9 bold', bg="#A0D8B3", fg="black",
                        relief='raised', overrelief='ridge', command=update)
-update_button.place(x=145, y=385)
+update_button.place(x=145, y=260)
 
 delete_button = Button(frame_left, text="Deletar", width=16, font='Ivy 9 bold', bg="#ff6961", fg="black",
                        relief='raised', overrelief='ridge', command=delete)
-delete_button.place(x=294, y=385)
+delete_button.place(x=294, y=260)
 
 # Calling show_table function
 show_table()
